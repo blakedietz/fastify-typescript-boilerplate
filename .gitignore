@@ -61,4 +61,4 @@ profile*
 examples/typescript-server.js
 src/test/types/index.js
 
-!/.env
+.env
