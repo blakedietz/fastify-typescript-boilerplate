@@ -1,7 +1,7 @@
-import path from "path";
-import AutoLoad from "fastify-autoload";
+import path from 'path';
+import AutoLoad from 'fastify-autoload';
 
-export default function (fastify, opts, next) {
+export default function(fastify, opts, next) {
   // Place here your custom code!
 
   // Do not touch the following lines
@@ -12,7 +12,7 @@ export default function (fastify, opts, next) {
   fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'plugins'),
     options: Object.assign({}, opts),
-    includeTypeScript: true
+    includeTypeScript: true,
   });
 
   // This loads all plugins defined in services
@@ -20,9 +20,9 @@ export default function (fastify, opts, next) {
   fastify.register(AutoLoad, {
     dir: path.join(__dirname, 'services'),
     options: Object.assign({}, opts),
-    includeTypeScript: true
+    includeTypeScript: true,
   });
 
   // Make sure to call next when done
-  next()
+  next();
 }

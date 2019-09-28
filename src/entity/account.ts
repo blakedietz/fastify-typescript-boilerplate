@@ -1,25 +1,24 @@
 import {
-  CreateDateColumn,
   Column,
+  CreateDateColumn,
   Entity,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Post {
-  @PrimaryColumn()
+export class Account {
+  @PrimaryGeneratedColumn()
   public id: string;
-
   @Column()
-  public title: string;
-
-  @Column({ type: 'json' })
-  public postJson: string;
+  public email: string;
+  @Column()
+  public userName: string;
+  @Column()
+  public hashedPassword: string;
 
   @CreateDateColumn()
   public createdAt: string;
-
   @UpdateDateColumn()
   public updatedAt: string;
 }
