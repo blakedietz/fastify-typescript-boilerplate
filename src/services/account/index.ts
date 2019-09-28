@@ -28,10 +28,12 @@ export default async function(fastify, opts) {
       reply.setCookie('jwt', jwt, { httpOnly: true, secure: true });
       return { userName };
     } catch (e) {
+      console.error(e);
       reply.code(401);
     }
     return {};
   });
+  fastify.put('/account/:id/update-password', async function() {});
   fastify.get('/account/verify', async function(request, reply) {
     if (!request.headers.authorization) {
       reply.code(401);
@@ -44,7 +46,7 @@ export default async function(fastify, opts) {
       tokenIsValid: AccountController.validateJwt({ jwt: token }),
     };
   });
-  fastify.post('account/close', async function(
+  fastify.post('/account/close', async function(
     { body: { username, password } },
     reply,
   ) {
