@@ -6,10 +6,11 @@ import { Account } from '../../entity/account';
 import { Repository } from 'typeorm';
 import { sign, verify } from 'jsonwebtoken';
 
-// Set up some async helpers to mitigate callback hell
+// Wrap callback based functions in promises
 const genSalt = promisify(bcrypt.genSalt);
 const hash = promisify(bcrypt.hash);
 const compare = promisify(bcrypt.compare);
+// TODO: (bdietz) - think about rolling keys maybe make a script to make it easy
 
 @Service()
 export class AccountController {
@@ -42,18 +43,20 @@ export class AccountController {
   }): Promise<boolean> {
     return compare(clearTextPassword, hashedPassword);
   }
-  public async createJwt({ userName, password }) {
+  public async createJwt({ email, password }) {
     const payload = {
-      userName,
+      email,
       permissions: [],
     };
 
-    const user = await this.accountRepository.findOneOrFail({ userName });
+    const user = await this.accountRepository.findOneOrFail({ email });
     const passwordIsCorrect = await AccountController.comparePasswordHash({
       clearTextPassword: password,
       hashedPassword: user.hashedPassword,
     });
+
     // TODO: (bdietz) - throw an error if the password is not correct
+    // TODO: (bdietz) - throw an error if the user does not exist
 
     return sign(payload, process.env.PRIVATE_KEY, {
       algorithm: 'RS256',

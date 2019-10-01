@@ -33,7 +33,7 @@ const start = async () => {
 
     server.register(app);
     await server.listen(
-      process.env.PORT ? Number(process.env.PORT) : 3000,
+      process.env.PORT ? Number(process.env.PORT) : 3001,
       '0.0.0.0',
     );
   } catch (err) {

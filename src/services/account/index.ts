@@ -18,15 +18,14 @@ export default async function(fastify, opts) {
     return accountController.getAll();
   });
   fastify.post('/account/login', async function(
-    { body: { userName, password } },
+    { body: { userName, password, email } },
     reply,
   ) {
     const accountController = Container.get(AccountController);
 
     try {
-      const jwt = await accountController.createJwt({ userName, password });
-      reply.setCookie('jwt', jwt, { httpOnly: true, secure: true });
-      return { userName };
+      const jwt = await accountController.createJwt({ email, password });
+      return { jwt };
     } catch (e) {
       console.error(e);
       reply.code(401);
