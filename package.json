@@ -64,13 +64,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blakedietz/kbd-notifs.git"
+    "url": "git+https://github.com/blakedietz/fastify-typescript-boilerplate.git"
   },
   "keywords": [],
   "author": "blakedietz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/blakedietz/kbd-notifs/issues"
+    "url": "https://github.com/blakedietz/fastify-typescript-boilerplate/issues"
   },
-  "homepage": "https://github.com/blakedietz/kbd-notifs#readme"
+  "homepage": "https://github.com/blakedietz/fastify-typescript-boilderplate#readme"
 }
