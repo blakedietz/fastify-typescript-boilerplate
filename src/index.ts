@@ -1,6 +1,8 @@
 import 'reflect-metadata';
+import { validateEnvironment } from './validate-environment';
 import dotenv from 'dotenv';
 dotenv.config();
+validateEnvironment(process.env);
 import { createConnection, useContainer } from 'typeorm';
 import { Container } from 'typedi';
 import fastify from 'fastify';
