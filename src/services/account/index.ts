@@ -1,6 +1,7 @@
 import { Container } from 'typedi';
 import { AccountController } from '../../context/account/account.controller';
 import fastifyCookie from 'fastify-cookie';
+import { sendTestEmail } from '../../context/user-notifications/email';
 
 export default async function(fastify, opts) {
   // Allow working with cookies
@@ -32,7 +33,7 @@ export default async function(fastify, opts) {
     }
     return {};
   });
-  fastify.put('/account/:id/update-password', async function() {});
+  // fastify.put('/account/:id/update-password', async function() {});
   fastify.get('/account/verify', async function(request, reply) {
     if (!request.headers.authorization) {
       reply.code(401);
@@ -45,11 +46,11 @@ export default async function(fastify, opts) {
       tokenIsValid: AccountController.validateJwt({ jwt: token }),
     };
   });
-  fastify.post('/account/close', async function(
-    { body: { username, password } },
-    reply,
-  ) {
-    // TODO: (bdietz) -
-    return;
-  });
+  // fastify.post('/account/close', async function(
+  //   { body: { username, password } },
+  //   reply,
+  // ) {
+  //   // TODO: (bdietz) -
+  //   return;
+  // });
 }

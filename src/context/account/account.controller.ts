@@ -10,7 +10,6 @@ import { sign, verify } from 'jsonwebtoken';
 const genSalt = promisify(bcrypt.genSalt);
 const hash = promisify(bcrypt.hash);
 const compare = promisify(bcrypt.compare);
-// TODO: (bdietz) - think about rolling keys maybe make a script to make it easy
 
 @Service()
 export class AccountController {
