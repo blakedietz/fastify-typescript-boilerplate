@@ -6,13 +6,17 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { IsEmail, Length } from 'class-validator';
+
 @Entity()
 export class Account {
   @PrimaryGeneratedColumn()
   public id: string;
-  @Column()
+  @Column({ unique: true })
+  @IsEmail()
   public email: string;
-  @Column()
+  @Column({ unique: true })
+  @Length(1, 20)
   public userName: string;
   @Column()
   public hashedPassword: string;
