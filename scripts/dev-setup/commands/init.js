@@ -23,6 +23,8 @@ exports.handler = () => {
     const postgresPort = `5432`;
     const database = `boilerplate_${environment}`;
     const databaseConnectionString = `postgres://${postgresUser}:${postgresPassword}@${postgresHost}:${postgresPort}/${database}`;
+    const redisHost = 'localhost';
+    const redisPort = 6379;
 
     const envFile = `DATABASE_URL=${databaseConnectionString}
 POSTGRES_DB=${database}
@@ -31,7 +33,9 @@ POSTGRES_USER=${postgresUser}
 # Note that the quotes are necessary for the jsonwebtoken library
 # Otherwise you'll get an ERR_OSSL_PEM_NO_START_LINE upon signing
 PRIVATE_KEY="${privateKey.replace(/\n/g, '\\n')}"
-PUBLIC_KEY="${publicKey.replace(/\n/g, '\\n')}"`;
+PUBLIC_KEY="${publicKey.replace(/\n/g, '\\n')}"
+REDIS_URL=redis://${redisHost}:${redisPort}
+`;
     const envFilePath = path.join(
       process.cwd(),
       'configs',
