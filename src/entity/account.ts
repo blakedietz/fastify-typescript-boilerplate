@@ -20,6 +20,8 @@ export class Account {
   public userName: string;
   @Column()
   public hashedPassword: string;
+  @Column({ default: false })
+  public isVerified: boolean;
 
   @CreateDateColumn()
   public createdAt: string;
