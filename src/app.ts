@@ -3,10 +3,11 @@ import AutoLoad from 'fastify-autoload';
 import fastifyCors from 'fastify-cors';
 
 export default function(fastify, opts, next) {
-  fastify.register(fastifyCors, {
-    origin: ['http://localhost:3000'],
-    credentials: true,
-  });
+  // TODO: (bdietz) - make this more locked down
+  // https://github.com/fastify/fastify-cors
+  fastify.register(fastifyCors);
+  // origin: ['http://localhost:3000'],
+  // credentials: true,
   // Place here your custom code!
 
   // Do not touch the following lines
