@@ -1,3 +1,4 @@
+// Good list of status codes: https://www.restapitutorial.com/httpstatuscodes.html
 export class InvalidTokenError extends Error {
   private statusCode: number;
   constructor(message = 'The token you provided was not valid.') {
