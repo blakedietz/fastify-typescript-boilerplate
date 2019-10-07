@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
   }),
 });
 
-export async function sendTestEmail({ email, subject, text }) {
+export async function sendEmail({ email, subject, text }) {
   return new Promise((resolve, reject) => {
     transporter.sendMail(
       {
