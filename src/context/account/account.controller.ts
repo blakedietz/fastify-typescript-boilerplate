@@ -1,77 +1,53 @@
-import bcrypt from 'bcrypt';
-import { promisify } from 'util';
-import { Service } from 'typedi';
+import { Service, Inject } from 'typedi';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 import { Account } from '../../entity/account';
 import { Repository } from 'typeorm';
-import { sign, verify } from 'jsonwebtoken';
-
-// Wrap callback based functions in promises
-const genSalt = promisify(bcrypt.genSalt);
-const hash = promisify(bcrypt.hash);
-const compare = promisify(bcrypt.compare);
+import { AccountLoginService } from './account-login.service';
+import { AccountPasswordResetService } from './account-password-reset.service';
+import { AccountSignUpService } from './account-sign-up.service';
+import { AccountVerifyService } from './account-verify.service';
+import { sendEmail } from '../user-notifications/email';
 
 @Service()
 export class AccountController {
+  @Inject()
+  private accountLoginService: AccountLoginService;
+  @Inject()
+  private accountPasswordResetService: AccountPasswordResetService;
+  @Inject()
+  private accountSignUpService: AccountSignUpService;
+  @Inject()
+  private accountVerifyService: AccountVerifyService;
+
   @InjectRepository(Account)
   private accountRepository: Repository<Account>;
 
-  public async create({ userName, password, email }) {
-    const newAccountParams = new Account();
-    newAccountParams.userName = userName;
-    newAccountParams.email = email;
-    newAccountParams.hashedPassword = await AccountController.hashPassword({
+  public async create({ email, userName, password }) {
+    const newAccount = await this.accountSignUpService.create({
+      email,
+      userName,
       password,
     });
-    // send user email that they have successfully signed up
-    return await this.accountRepository.save(newAccountParams);
+
+    const emailToken = await this.accountVerifyService.createJwt({ email });
+
+    // TODO: (bdietz) - offload this to an non main thread task
+    await sendEmail({
+      email,
+      subject: 'Verify your account.',
+      text: `Thanks for signing up please verify your account by visiting http://localhost:3000/account/verify?token=${emailToken}`,
+    });
+  }
+
+  public async login({ email, password }) {}
+
+  public async resetPassword({ email, newPassword, newPasswordDuplicate }) {}
+
+  public async verify({ email }): Promise<void> {
+    await this.accountVerifyService.verifyAccount({ email });
   }
 
   public async getAll(): Promise<Account[]> {
     return await this.accountRepository.find();
   }
-
-  private static async hashPassword({ password }): Promise<string> {
-    const saltRounds = 10;
-    const salt = await genSalt(saltRounds);
-    return hash(password, salt);
-  }
-  public static async comparePasswordHash({
-    hashedPassword,
-    clearTextPassword,
-  }): Promise<boolean> {
-    return compare(clearTextPassword, hashedPassword);
-  }
-  public async createJwt({ email, password }) {
-    const payload = {
-      email,
-      permissions: [],
-    };
-
-    const user = await this.accountRepository.findOneOrFail({ email });
-    const passwordIsCorrect = await AccountController.comparePasswordHash({
-      clearTextPassword: password,
-      hashedPassword: user.hashedPassword,
-    });
-
-    // TODO: (bdietz) - throw an error if the password is not correct
-    // TODO: (bdietz) - throw an error if the user does not exist
-
-    return sign(payload, process.env.PRIVATE_KEY, {
-      algorithm: 'RS256',
-      expiresIn: '1d',
-    });
-  }
-  public static validateJwt({ jwt }): boolean {
-    try {
-      // verify returns the token or throws
-      verify(jwt, process.env.PUBLIC_KEY, {
-        algorithms: ['RS256'],
-      });
-      return true;
-    } catch (e) {
-      return false;
-    }
-  }
-  // public async resetPassword() {}
 }
