@@ -8,6 +8,7 @@ import { Container } from 'typedi';
 import fastify from 'fastify';
 import app from './app';
 import assert from 'assert';
+import { server as graphqlServer } from './graphql/server';
 
 const server = fastify({
   logger: true,
@@ -22,6 +23,7 @@ const start = async () => {
         process.env.DATABASE_URL.includes('postgres://'),
       'A proper DATABASE_URL was not specified in the environment.',
     );
+    server.register(graphqlServer.createHandler());
 
     databaseConnection = await createConnection({
       type: 'postgres',
