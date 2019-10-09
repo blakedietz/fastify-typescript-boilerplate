@@ -26,8 +26,4 @@ export class AccountSignUpService {
       //  read more about that here: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html#authentication-responses
     }
   }
-
-  public async getAll(): Promise<Account[]> {
-    return await this.accountRepository.find();
-  }
 }

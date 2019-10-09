@@ -25,13 +25,12 @@ export class AccountVerifyService {
 
   public async isValidJwt({ jwt }): Promise<boolean> {
     try {
-      const { email } = decode(jwt);
+      const { email, exp } = decode(jwt);
       const user = await this.accountRepository.findOneOrFail({ email });
 
       verify(jwt, user.hashedPassword);
-      // TODO: (bdietz) - check to make sure token hasn't expired;
 
-      return true;
+      return Date.now() < exp;
     } catch (e) {
       return false;
     }

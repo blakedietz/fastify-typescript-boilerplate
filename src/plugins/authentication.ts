@@ -23,11 +23,6 @@ export default fp(async function(fastify, opts) {
     if (!tokenIsValid) {
       throw new InvalidTokenError();
     }
-
-    request.user = {
-      token: decode(token),
-    };
-    done();
   });
 
   // fastify.decorate('validateJwtPasswordReset', async function(

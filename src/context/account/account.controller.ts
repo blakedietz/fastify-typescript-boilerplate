@@ -28,6 +28,13 @@ export class AccountController {
       userName,
       password,
     });
+    // TODO: (bdietz) - need to check if falid email
+
+    await this.sendVerificationEmail({ email });
+  }
+
+  public async sendVerificationEmail({ email }) {
+    await this.accountRepository.findOneOrFail({ email });
 
     const emailToken = await this.accountVerifyService.createJwt({ email });
 

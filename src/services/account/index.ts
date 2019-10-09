@@ -29,6 +29,18 @@ export default async function(fastify, opts) {
     },
   });
 
+  fastify.route({
+    method: 'POST',
+    url: '/account/verify/new',
+    handler: async function({ body: { email } }, reply) {
+      await Container.get(AccountController).sendVerificationEmail({
+        email,
+      });
+
+      return {};
+    },
+  });
+
   // fastify.post('/account/verify', async function(request, reply) {});
   // fastify.get('/account', async function(request, reply) {
   //   const accountController = Container.get(AccountController);
