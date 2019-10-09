@@ -19,9 +19,9 @@ A `.nvmrc` is used to specify the current version of node that is expected.
 Install it and run:
 
 ```bash
-npm install
-npm run dev-setup:init
-npm start
+npm i;
+npm run dev-setup:init;
+npm run dev;
 ```
 
 ## The idea behind the boilerplate 
@@ -39,4 +39,5 @@ to heroku. The app has the following features:
 - AuthO and AuthZ
 - Dockerized development environment: Easily tear down and spin up production-like environments locally
 - Simplified development environment variable management via `env:*` scripts
+- GraphQL support
 

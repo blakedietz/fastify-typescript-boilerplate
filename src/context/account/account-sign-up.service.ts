@@ -17,8 +17,7 @@ export class AccountSignUpService {
       password,
     });
     try {
-      // Send user email that they have successfully signed up
-      await this.accountRepository.save(newAccountParams);
+      return await this.accountRepository.save(newAccountParams);
     } catch (e) {
       // TODO: (bdietz) - in a scenario where the user email already exists
       //  we need to swallow the error and act none the wiser. this is for

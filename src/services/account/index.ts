@@ -9,6 +9,8 @@ export default async function(fastify, opts) {
   ) {
     const accountController = Container.get(AccountController);
     accountController.create({ userName, email, password });
+
+    return {};
   });
 
   fastify.route({

@@ -28,9 +28,12 @@ export class AccountController {
       userName,
       password,
     });
-    // TODO: (bdietz) - need to check if falid email
 
-    await this.sendVerificationEmail({ email });
+    // If the account is not created don't send the email.
+    if (newAccount) {
+      await this.sendVerificationEmail({ email });
+    }
+    return newAccount;
   }
 
   public async sendVerificationEmail({ email }) {

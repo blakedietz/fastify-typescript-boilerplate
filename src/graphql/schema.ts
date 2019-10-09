@@ -5,6 +5,10 @@ import {
   typeDefs as helloTypeDefs,
 } from './resolvers/hello';
 import {
+  resolvers as accountResolvers,
+  typeDefs as accountTypeDefs,
+} from './resolvers/account';
+import {
   typeDefs as authorizationDirectiveTypeDefs,
   resolvers as authorizationDirectiveResolvers,
 } from './directives/authorization';
@@ -13,7 +17,7 @@ import {
   resolvers as authenticationDirectiveResolvers,
 } from './directives/authentication';
 
-export const resolvers = merge(helloResolvers);
+export const resolvers = merge(helloResolvers, accountResolvers);
 
 export const directiveResolvers = merge(
   authenticationDirectiveResolvers,
@@ -34,5 +38,6 @@ export const typeDefs = [
   authenticationDirectiveTypeDefs,
   authorizationDirectiveTypeDefs,
   queryTypeDef,
+  accountTypeDefs,
   helloTypeDefs,
 ];
