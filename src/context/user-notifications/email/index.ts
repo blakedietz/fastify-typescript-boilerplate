@@ -8,7 +8,18 @@ aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 });
 
-// create Nodemailer SES transporter
+/* Create Nodemailer SES transporter
+ * The user that sends this needs the following permission:
+ *{
+ *    "Statement": [
+ *        {
+ *            "Effect": "Allow",
+ *            "Action": "ses:SendRawEmail",
+ *            "Resource": "*"
+ *        }
+ *    ]
+ * }
+ */
 const transporter = nodemailer.createTransport({
   SES: new aws.SES({
     apiVersion: '2010-12-01',
