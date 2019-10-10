@@ -35,6 +35,9 @@ POSTGRES_USER=${postgresUser}
 PRIVATE_KEY="${privateKey.replace(/\n/g, '\\n')}"
 PUBLIC_KEY="${publicKey.replace(/\n/g, '\\n')}"
 REDIS_URL=redis://${redisHost}:${redisPort}
+AWS_ACCESS_KEY_ID=CHANGEME
+AWS_SECRET_ACCESS_KEY=CHANGEME
+EMAIL_ADDRESS=CHANGEME
 `;
     const envFilePath = path.join(
       process.cwd(),
